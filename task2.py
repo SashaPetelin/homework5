@@ -1,67 +1,51 @@
 # Создайте программу для игры в ""Крестики-нолики"".
 
-field = list(range(1,10))
+fld = list(range(1,10))
 
-def lining(field):
-    print('-'*12)
+winlines = [[0, 1, 2], [3, 4, 5], [6, 7, 8],
+       [0, 3, 6], [1, 4, 7], [2, 5, 8],
+       [0, 4, 8], [2, 4, 6]]
+
+def lining(fld):
+    print('-'*10)
     for i in range(3):
-        print('|', field[0+i*3],'|', field[1+i*3], '|', field[2+i*3], '|')
-        print('-'*12)
+        print(fld[0+i*3], '|', fld[1+i*3], '|', fld[2+i*3])
+        print('-'*10)
 
-print(lining(field))
+def wrt(n,sign):
+    ind = fld.index(n)
+    fld[ind] = sign
 
-win = [[0,1,2],[3,4,5],[6,7,8],
-       [0,3,6],[1,4,7],[2,5,8],
-       [0,4,8],[2,4,6]]
+def chekwin():
+    winner = ""
 
+    for i in winlines:
+        if fld[i[0]] == "X" and fld[i[1]] == "X" and fld[i[2]] == "X":
+            winner = "Выиграл игрок Х"
+        elif fld[i[0]] == "O" and fld[i[1]] == "O" and fld[i[2]] == "O":
+            winner = "Выиграл игрок O"
+    return winner
 
+ending = False
+p1 = True
+while ending == False:
+    lining(fld)
 
+    if p1 == True:
+        sign = "X"
+        n = int(input("Ходит игрок Х: "))
+    else:
+        sign = "O"
+        n = int(input("Ходит игрок O: "))
 
+    wrt(n, sign)
+    win = chekwin()
+    if win != "":
+        ending = True
+    else:
+        ending = False
 
-# def choice(tic_tac):
-#     valid = False
-#     while not valid:
-#         player_index = input('Ваш ход, выберите ячейку ' + tic_tac + ' --> ')
-#         try:
-#             player_index =int(player_index)
-#         except:
-#             print('Что то не то нажали')
-#             continue
-#         if player_index >= 1 and player_index <= 9:
-#             if(str(board[player_index-1]) not in 'XO'):
-#                 board[player_index-1] = tic_tac
-#                 valid = True
-#             else:
-#                 print('Занято')
-#         else:
-#             print('Еще раз попробуй')
+    p1 = not(p1)
 
-# def victory_check(board):
-#     victory = ((0,1,2),(3,4,5),(6,7,8),
-#                (0,3,6),(1,4,7),(2,5,8),
-#                (0,4,8),(2,4,6))
-#     for i in victory:
-#         if board[i[0]] == board[i[1]] == board[i[2]]:
-#             return board[i[0]]
-#     return False
-
-# def game(board):
-#     counter =0
-#     vic = False
-#     while not vic:
-#         design_board(board)
-#         if counter % 2 == 0:
-#             choice('X')
-#         else:
-#             choice('0')
-#         counter +=1
-#         if counter > 4:
-#             tt_win = victory_check(board)
-#             if tt_win:
-#                 print(tt_win,'Победа')
-#                 vic = True
-#                 break
-#             if counter == 9:
-#                 print('Победила, ДРУЖБА)')
-#         design_board(board)
-# game(board)
+lining(fld)
+print(win)
